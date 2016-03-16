@@ -3,16 +3,23 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "newStorageAccountName": {
-      "value": "myStorageAccount"
+      "value": "bsstore1"
     },
     "adminUsername": {
       "value": "admin123"
     },
     "adminPassword": {
-      "value": "ADmin123_!"
+      "value": "ADmin12#_!"
     },
     "dnsNameForPublicIP": {
       "value": "myDnsName"
+    },
+    "location":{
+      "value": "West US"
+    },
+
+    "sizeOfDiskInGB":{
+      "value": "20"
     }
   }
 }
