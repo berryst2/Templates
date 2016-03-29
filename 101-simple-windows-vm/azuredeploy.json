@@ -31,7 +31,8 @@
       "defaultValue": "West US",
       "allowedValues": [
         "West US",
-        "East US 2"
+        "East US 2",
+        "Southeast Asia"
       ],
       "metadata": {
         "description": "Restrics choices to where premium storage is located in the US region"
@@ -80,7 +81,7 @@
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[parameters('newStorageAccountName')]",
       "apiVersion": "2015-05-01-preview",
-      "location": "[parameter('location')]",
+      "location": "[parameters('location')]",
       "properties": {
         "accountType": "[variables('storageAccountType')]"
       }
@@ -89,7 +90,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[variables('publicIPAddressName')]",
-      "location": "[parameter('location')]",
+      "location": "[parameters('location')]",
       "properties": {
         "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
         "dnsSettings": {
@@ -101,7 +102,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/virtualNetworks",
       "name": "[variables('virtualNetworkName')]",
-      "location": "[parameter('location')]",
+      "location": "[parameters('location')]",
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
@@ -122,7 +123,7 @@
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('nicName')]",
-      "location": "[parameter('location')]",
+      "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
         "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
@@ -148,7 +149,7 @@
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[variables('vmName')]",
-      "location": "[parameter('location')]",
+      "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', parameters('newStorageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
@@ -176,17 +177,17 @@
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
-          }
+          } 
         },
         "dataDisks":[
           {
-            "name":"datadisk1",
-            "diskSizeGB": "[parameters('sizeOfDiskInGB')]",
+            "name": "datadisk1",
+            "diskSizeGB": "[parameters('SizeofEachDataDiskInGB')]",
             "lun": 0,
-            "vhd":{
-              "Uri":"[variables('dataDisk1VhdName')]"
+            "vhd": {
+              "Uri": "[variables('dataDisk1VhdName')]"
             },
-            "createOption":"Empty"
+            "createOption": "Empty"
           }
         ],
         "networkProfile": {
