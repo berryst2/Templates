@@ -31,173 +31,173 @@
         "East Asia",
         "Southeast Asia",
         "Australia East",
-        "Australia SouthEast"
+        "Australia Southeast"
       ],
       "metadata": {
-        "description": "The region to deploy the resources into"
+        "Description": "The region to deploy the resources into"
       },
       "defaultValue": "Australia East"
     },
-    "virtualNetworkName": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the Virtual Network to Create"
+      "virtualNetworkName": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the Virtual Network to Create"
+        },
+        "defaultValue": "ADVNET"
       },
-      "defaultValue": "ADVNET"
-    },
-    "virtualNetworkAddressRange": {
-      "type": "string",
-      "metadata": {
-        "description": "The address range of the new VNET in CIDR format"
+      "virtualNetworkAddressRange": {
+        "type": "string",
+        "metadata": {
+          "description": "The address range of the new VNET in CIDR format"
+        },
+        "defaultValue": "172.16.0.0/16"
       },
-      "defaultValue": "172.16.0.0/16"
-    },
-    "adSubnetName": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the subnet created in the new VNET"
+      "adSubnetName": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the subnet created in the new VNET"
+        },
+        "defaultValue": "adSubnet"
       },
-      "defaultValue": "adSubnet"
-    },
-    "adSubnet": {
-      "type": "string",
-      "metadata": {
-        "description": "The address range of the subnet created in the new VNET"
+      "adSubnet": {
+        "type": "string",
+        "metadata": {
+          "description": "The address range of the subnet created in the new VNET"
+        },
+        "defaultValue": "172.16.1.0/24"
       },
-      "defaultValue": "172.16.1.0/24"
-    },
-    "adNicName": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the NIC attached to the new VM"
+      "adNicName": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the NIC attached to the new VM"
+        },
+        "defaultValue": "adNic"
       },
-      "defaultValue": "adNic"
-    },
-    "adNicIPAddress": {
-      "type": "string",
-      "metadata": {
-        "description": "The IP address of the new AD VM"
+      "adNicIPAddress": {
+        "type": "string",
+        "metadata": {
+          "description": "The IP address of the new AD VM"
+        },
+        "defaultValue": "172.16.1.1"
       },
-      "defaultValue": "172.16.1.1"
-    },
-    "publicIPAddressName": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the public IP address used by the Load Balancer"
+      "publicIPAddressName": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the public IP address used by the Load Balancer"
+        },
+        "defaultValue": "adpublicIP"
       },
-      "defaultValue": "adpublicIP"
-    },
-    "publicIPAddressType": {
-      "type": "string",
-      "allowedValues": [
-        "Dynamic",
-        "Static"
-      ],
-      "metadata": {
-        "description": "The type of the public IP address used by the Load Balancer"
+      "publicIPAddressType": {
+        "type": "string",
+        "allowedValues": [
+          "Dynamic",
+          "Static"
+        ],
+        "metadata": {
+          "description": "The type of the public IP address used by the Load Balancer"
+        },
+        "defaultValue": "Dynamic"
       },
-      "defaultValue": "Dynamic"
-    },
-    "adVMName": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the VM created"
+      "adVMName": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the VM created"
+        },
+        "defaultValue": "sboxdc"
       },
-      "defaultValue": "sboxDC"
-    },
-    "adminUsername": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the Administrator of the new VM and Domain"
+      "adminUsername": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the Administrator of the new VM and Domain"
+        },
+        "defaultValue": "berryst"
       },
-      "defaultValue": "berryst"
-    },
-    "adminPassword": {
-      "type": "securestring",
-      "metadata": {
-        "description": "The password forthe Administrator account of the new VM and Domain"
+      "adminPassword": {
+        "type": "securestring",
+        "metadata": {
+          "description": "The password forthe Administrator account of the new VM and Domain"
+        }
+      },
+      "adVMSize": {
+        "type": "string",
+        "allowedValues": [
+          "Standard_D1",
+          "Standard_DS1",
+          "Standard_D2",
+          "Standard_DS2",
+          "Standard_D3",
+          "Standard_DS3",
+          "Standard_D4",
+          "Standard_DS4",
+          "Standard_D11",
+          "Standard_DS11",
+          "Standard_D12",
+          "Standard_DS12",
+          "Standard_D13",
+          "Standard_DS13",
+          "Standard_D14",
+          "Standard_DS14"
+        ],
+        "metadata": {
+          "description": "The size of the VM Created"
+        },
+        "defaultValue": "Standard_D2"
+      },
+      "imagePublisher": {
+        "type": "string",
+        "defaultValue": "MicrosoftWindowsServer",
+        "metadata": {
+          "description": "Image Publisher"
+        }
+      },
+      "imageOffer": {
+        "type": "string",
+        "defaultValue": "WindowsServer",
+        "metadata": {
+          "description": "Image Offer"
+        }
+      },
+      "imageSKU": {
+        "type": "string",
+        "defaultValue": "2012-R2-Datacenter",
+        "metadata": {
+          "description": "Image SKU"
+        }
+      },
+      "adAvailabilitySetName": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the availability set that the AD VM is created in"
+        },
+        "defaultValue": "adAvailabiltySet"
+      },
+      "domainName": {
+        "type": "string",
+        "metadata": {
+          "description": "The FQDN of the AD Domain created "
+        }
+      },
+      "addnsName": {
+        "type": "string",
+        "metadata": {
+          "description": "The DNS prefix for the public IP address used by the Load Balancer"
+        }
+      },
+      "RDPPort": {
+        "type": "int",
+        "metadata": {
+          "description": "The public RDP port for the VM"
+        },
+        "defaultValue": 3389
+      },
+      "assetLocation": {
+        "type": "string",
+        "metadata": {
+          "description": "The location of resources such as templates and DSC modules that the script is dependent"
+        },
+        "defaultValue": "https://raw.githubusercontent.com/berryst/Templates/master/active-directory-new-domain/"
       }
     },
-    "adVMSize": {
-      "type": "string",
-      "allowedValues": [
-        "Standard_D1",
-        "Standard_DS1",
-        "Standard_D2",
-        "Standard_DS2",
-        "Standard_D3",
-        "Standard_DS3",
-        "Standard_D4",
-        "Standard_DS4",
-        "Standard_D11",
-        "Standard_DS11",
-        "Standard_D12",
-        "Standard_DS12",
-        "Standard_D13",
-        "Standard_DS13",
-        "Standard_D14",
-        "Standard_DS14"
-      ],
-      "metadata": {
-        "description": "The size of the VM Created"
-      },
-      "defaultValue": "Standard_D2"
-    },
-    "imagePublisher": {
-      "type": "string",
-      "defaultValue": "MicrosoftWindowsServer",
-      "metadata": {
-        "description": "Image Publisher"
-      }
-    },
-    "imageOffer": {
-      "type": "string",
-      "defaultValue": "WindowsServer",
-      "metadata": {
-        "description": "Image Offer"
-      }
-    },
-    "imageSKU": {
-      "type": "string",
-      "defaultValue": "2012-R2-Datacenter",
-      "metadata": {
-        "description": "Image SKU"
-      }
-    },
-    "adAvailabilitySetName": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the availability set that the AD VM is created in"
-      },
-      "defaultValue": "adAvailabiltySet"
-    },
-    "domainName": {
-      "type": "string",
-      "metadata": {
-        "description": "The FQDN of the AD Domain created "
-      }
-    },
-    "addnsName": {
-      "type": "string",
-      "metadata": {
-        "description": "The DNS prefix for the public IP address used by the Load Balancer"
-      }
-    },
-    "RDPPort": {
-      "type": "int",
-      "metadata": {
-        "description": "The public RDP port for the VM"
-      },
-      "defaultValue": 3389
-    },
-    "assetLocation": {
-      "type": "string",
-      "metadata": {
-        "description": "The location of resources such as templates and DSC modules that the script is dependent"
-      },
-      "defaultValue": "https://raw.githubusercontent.com/berryst/Templates/master/active-directory-new-domain/"
-    }
-  },
   "variables": {
     "adLBFE": "adLBFE",
     "adLBBE": "LBBE",
