@@ -9,4 +9,4 @@ Click the button below to deploy
 </a>
 <a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fberryst%2FTemplates%2Fmaster%2Factive-directory-new-domain%2Fazuredeploy.json" target="_blank">
     <img src="http://armviz.io/visualizebutton.png"/>
-</a
+</a>
