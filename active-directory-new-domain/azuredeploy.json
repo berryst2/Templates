@@ -71,21 +71,21 @@
         "metadata": {
           "description": "The name of the NIC attached to the new VM"
         },
-        "defaultValue": "adNic"
+        "defaultValue": "adnic"
       },
       "adNicIPAddress": {
         "type": "string",
         "metadata": {
           "description": "The IP address of the new AD VM"
         },
-        "defaultValue": "172.16.1.1"
+        "defaultValue": "172.16.1.3"
       },
       "publicIPAddressName": {
         "type": "string",
         "metadata": {
           "description": "The name of the public IP address used by the Load Balancer"
         },
-        "defaultValue": "adpublicIP"
+        "defaultValue": "adpublicip"
       },
       "publicIPAddressType": {
         "type": "string",

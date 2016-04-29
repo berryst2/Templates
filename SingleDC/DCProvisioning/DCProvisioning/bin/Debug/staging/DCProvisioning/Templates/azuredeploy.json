@@ -1,0 +1,325 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "sboxstorageType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_ZRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Premium_LRS"
+      ]
+    },
+    "addcName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "addcAdminUserName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "addcAdminPassword": {
+      "type": "securestring"
+    },
+    "addcWindowsOSVersion": {
+      "type": "string",
+      "defaultValue": "2012-R2-Datacenter",
+      "allowedValues": [
+        "2008-R2-SP1",
+        "2012-Datacenter",
+        "2012-R2-Datacenter",
+        "Windows-Server-Technical-Preview"
+      ]
+    },
+    "domainName": {
+      "type": "string",
+      "metadata": {
+        "description": "The FQDN of the AD Domain created "
+      }
+    },
+    "addnsName": {
+      "type": "string",
+      "metadata": {
+        "description": "The DNS prefix for the public IP address used by the Load Balancer"
+      }
+    },
+    "location": {
+      "type": "string",
+      "metadata": {
+        "description": "Deployment location"
+      },
+      "defaultValue": "Australia East"
+    },
+    "adNicIPAddress": {
+      "type": "string",
+      "metadata": {
+        "description": "The IP address of the new AD VM"
+      },
+      "defaultValue": "172.16.1.4"
+    },
+    "assetLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "The location of resources such as templates and DSC modules that the script is dependent"
+      },
+      "defaultValue": "https://raw.githubusercontent.com/berryst/Templates/master/active-directory-new-domain/"
+    },
+      "adpublicipDnsName": {
+          "type": "string",
+          "minLength": 1
+      }
+  },
+  "variables": {
+    "sboxstorageName": "[concat('sboxstorage', uniqueString(resourceGroup().id))]",
+    "sboxvnetPrefix": "172.16.0.0/16",
+    "sboxvnetSubnet1Name": "ad",
+    "sboxvnetSubnet1Prefix": "172.16.1.0/24",
+    "sboxvnetSubnet2Name": "web",
+    "sboxvnetSubnet2Prefix": "172.16.2.0/24",
+    "sboxvnetSubnet3Name": "app",
+    "sboxvnetSubnet3Prefix": "172.16.3.0/24",
+    "sboxvnetSubnet4Name": "db",
+    "sboxvnetSubnet4Prefix": "172.16.4.0/24",
+    "addcImagePublisher": "MicrosoftWindowsServer",
+    "addcImageOffer": "WindowsServer",
+    "addcOSDiskName": "addcOSDisk",
+    "addcVmSize": "Standard_D1",
+    "addcVnetID": "[resourceId('Microsoft.Network/virtualNetworks', 'sboxvnet')]",
+    "addcSubnetRef": "[concat(variables('addcVnetID'), '/subnets/', variables('sboxvnetSubnet1Name'))]",
+    "addcStorageAccountContainerName": "vhds",
+    "addcNicName": "ADNIC",
+    "vnetTemplateUri": "[concat(parameters('assetLocation'),'vnet.json')]",
+    "vnetwithDNSTemplateUri": "[concat(parameters('assetLocation'),'vnet-with-dns-server.json')]",
+    "adModulesURL": "[concat(parameters('assetLocation'),'CreateADPDC.ps1.zip')]",
+    "adConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
+      "adpublicipName": "adpublicip"
+  },
+  "resources": [
+    {
+      "name": "[variables('sboxstorageName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "location": "[parameters('location')]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [ ],
+      "tags": {
+        "displayName": "sboxstorage"
+      },
+      "properties": {
+        "accountType": "[parameters('sboxstorageType')]"
+      }
+    },
+    {
+      "name": "sboxvnet",
+      "type": "Microsoft.Network/virtualNetworks",
+      "location": "[parameters('location')]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [ ],
+      "tags": {
+        "displayName": "sboxvnet"
+      },
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[variables('sboxvnetPrefix')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[variables('sboxvnetSubnet1Name')]",
+            "properties": {
+              "addressPrefix": "[variables('sboxvnetSubnet1Prefix')]"
+            }
+          },
+          {
+            "name": "[variables('sboxvnetSubnet2Name')]",
+            "properties": {
+              "addressPrefix": "[variables('sboxvnetSubnet2Prefix')]"
+            }
+          },
+          {
+            "name": "[variables('sboxvnetSubnet3Name')]",
+            "properties": {
+              "addressPrefix": "[variables('sboxvnetSubnet3Prefix')]"
+            }
+          },
+          {
+            "name": "[variables('sboxvnetSubnet4Name')]",
+            "properties": {
+              "addressPrefix": "[variables('sboxvnetSubnet4Prefix')]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[variables('adpublicipName')]",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "location": "[parameters('location')]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [ ],
+      "tags": {
+        "displayName": "adpublicip"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('adpublicipDnsName')]"
+        }
+      }
+    },
+    {
+      "name": "[variables('addcNicName')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[parameters('location')]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('Microsoft.Network/virtualNetworks/', 'sboxvnet')]",
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('adpublicipName'))]"
+      ],
+      "tags": {
+        "displayName": "addcNic"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "[parameters('adNicIPAddress')]",
+              "subnet": {
+                "id": "[variables('addcSubnetRef')]"
+              },
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('adpublicipName'))]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[parameters('addcName')]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "[parameters('location')]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', variables('sboxstorageName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('addcNicName'))]"
+      ],
+      "tags": {
+        "displayName": "addc"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[variables('addcVmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[parameters('addcName')]",
+          "adminUsername": "[parameters('addcAdminUsername')]",
+          "adminPassword": "[parameters('addcAdminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('addcImagePublisher')]",
+            "offer": "[variables('addcImageOffer')]",
+            "sku": "[parameters('addcWindowsOSVersion')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "addcOSDisk",
+            "vhd": {
+              "uri": "[concat('http://', variables('sboxstorageName'), '.blob.core.windows.net/', variables('addcStorageAccountContainerName'), '/', variables('addcOSDiskName'), '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('addcNicName'))]"
+            }
+          ]
+        }
+      },
+
+      "resources": [
+        {
+          "name": "[concat(parameters('addcName'),'/CreateADForest')]",
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "location": "[parameters('location')]",
+          "apiVersion": "2015-06-15",
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', parameters('addcName'))]"
+          ],
+          "tags": {
+            "displayName": "domaindsc"
+          },
+          "properties": {
+            "publisher": "Microsoft.Powershell",
+            "type": "DSC",
+            "typeHandlerVersion": "2.9",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "ModulesUrl": "[variables('adModulesURL')]",
+              "ConfigurationFunction": "[variables('adConfigurationFunction')]",
+              "properties": {
+                "DomainName": "[parameters('domainName')]",
+                "AdminCreds": {
+                  "UserName": "[parameters('addcAdminUserName')]",
+                  "Password": "PrivateSettingsRef:AdminPassword"
+                }
+              }
+            },
+            "protectedSettings": {
+              "Items": {
+                "AdminPassword": "[parameters('addcAdminPassword')]"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "UpdateVNetDNS",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('addcName'),'/extensions/CreateADForest')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('vnetwithDNSTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "virtualNetworkName": {
+            "value": "sboxvnet"
+          },
+          "virtualNetworkAddressRange": {
+            "value": "[variables('sboxvnetPrefix')]"
+          },
+          "subnetName": {
+            "value": "[variables('sboxvnetSubnet1Name')]"
+          },
+          "subnetRange": {
+            "value": "[variables('sboxvnetSubnet1Prefix')]"
+          },
+          "DNSServerAddress": {
+            "value": [
+              "[parameters('adNicIPAddress')]"
+            ]
+          }
+        }
+      }
+    }
+  ]
+    
+}
