@@ -6,7 +6,8 @@
       "type": "string",
       "metadata": {
         "description": "The name of the new storage account created to store the VMs disks"
-      }
+      },
+      "defaultValue": "sboxstorage"
     },
     "storageAccountType": {
       "type": "string",
@@ -175,13 +176,15 @@
         "type": "string",
         "metadata": {
           "description": "The FQDN of the AD Domain created "
-        }
+        },
+        "defaultValue": "sbox.az"
       },
       "addnsName": {
         "type": "string",
         "metadata": {
           "description": "The DNS prefix for the public IP address used by the Load Balancer"
-        }
+        },
+        "defaultValue": "addns"
       },
       "RDPPort": {
         "type": "int",
@@ -238,6 +241,7 @@
         "dnsSettings": {
           "domainNameLabel": "[parameters('addnsName')]"
         }
+    
       }
     },
     {
