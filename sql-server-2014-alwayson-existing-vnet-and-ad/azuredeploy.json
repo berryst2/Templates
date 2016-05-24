@@ -105,7 +105,7 @@
       "metadata": {
         "description": "Resource ID of the existing VNET. You can find the Resource ID for the VNET on the Properties blade of the VNET."
       },
-      "defaultValue": "/subscriptions/20dcc231-b33c-4d86-8951-da3e50be0ee4/resourceGroups/sandbox/providers/Microsoft.Network/virtualNetworks/ADVNET"
+      "defaultValue": "/subscriptions/20dcc231-b33c-4d86-8951-da3e50be0ee4/resourceGroups/sandbox/providers/Microsoft.Network/virtualNetworks/ADVNET"      
     },
 
     "existingSqlSubnetName": {
@@ -196,7 +196,7 @@
       "metadata": {
         "description": "Region in which to deploy the new resources"
       },
-      "defaultValue": "Australia Southeast"
+      "defaultValue": "Australia East"
     },
 
     "dataBaseNames": {

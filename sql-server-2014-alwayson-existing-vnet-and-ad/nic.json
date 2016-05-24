@@ -4,9 +4,30 @@
   "parameters": {
     "location": {
       "type": "string",
+      "allowedValues": [
+        "West US",
+        "East US",
+        "East US 2",
+        "Central US",
+        "South Central US",
+        "North Central US",
+        "North Europe",
+        "West Europe",
+        "East Asia",
+        "Southeast Asia",
+        "Japan East",
+        "Japan West",
+        "Brazil South",
+        "Australia East",
+        "Australia Southeast",
+        "Central India",
+        "South India",
+        "West India"
+      ],
       "metadata": {
-        "description": "The region to deploy the resources into"
-      }
+        "description": "Region in which to deploy the new resources"
+      },
+      "defaultValue": "Australia East"
     },
     "nicName": {
       "type": "string",
