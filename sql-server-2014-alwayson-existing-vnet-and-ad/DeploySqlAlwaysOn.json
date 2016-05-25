@@ -176,7 +176,7 @@
         "typeHandlerVersion": "2.17",
 		    "autoUpgradeMinorVersion": false,
         "settings": {
-          "wmfVersion": "4.0",
+          "wmfVersion": "5.0",
 		  "modulesUrl": "[variables('sqlAOPrepareModulesURL')]",
           "configurationFunction": "[variables('sqlAOPrepareConfigurationFunction')]",
           "properties": {
@@ -206,7 +206,7 @@
 			"apiVersion": "[variables('apiVersionVMExtensions')]",
 			"location": "[parameters('location')]",
 			"dependsOn":[
-				"[concat('Microsoft.Compute/virtualMachines/',parameters('sqlVMNamePrefix'),'0/extensions/sqlAOPrepare')]"
+        "[concat('Microsoft.Compute/virtualMachines/',parameters('sqlVMNamePrefix'),'0/extensions/sqlAOPrepare')]"
 			],
 			"properties": {
 				"publisher": "Microsoft.Powershell",
@@ -214,7 +214,7 @@
 				"typeHandlerVersion": "2.17",
 				"autoUpgradeMinorVersion": false,
 				"settings": {
-					"wmfVersion": "4.0",
+					"wmfVersion": "5.0",
 					"modulesUrl": "[variables('createClusterModulesURL')]",
 					"configurationFunction": "[variables('createClusterConfigurationFunction')]",
 					"properties": {
