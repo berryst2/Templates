@@ -95,7 +95,7 @@
         "typeHandlerVersion": "2.13",
 		"autoUpgradeMinorVersion": false,
         "settings": {
-          "wmfVersion": "4.0",
+          "wmfVersion": "5.0",
           "modulesUrl": "[variables('fswModulesURL')]",
           "configurationFunction": "[variables('fswConfigurationFunction')]",
           "properties": {
