@@ -1,11 +1,9 @@
-# Create a SQL Server 2014 Always On Availability Group with PowerShell DSC Extension
+# Create a SQL Server 2014 Always On Availability Group with PowerShell DSC Extension to an existing AD Domain
 
 This template will create a SQL Server 2014 Always On Availability Group using the PowerShell DSC Extension it creates the following resources:
 
-+	A Virtual Network
 +	Three Storage Accounts
 +	One external and one internal load balancer
-+	Two VMs configured as Domain Controllers for a new forest with a single domain
 +	Three VMs in a Windows Server Cluster, two VMs run SQL Server 2014 with an availability group and the third is a File Share Witness for the Cluster
 +	Two Availability Sets one for the AD VMs, the other for the SQL and Witness VMs, the second Availability Set is configured with three Update Domains and three Fault Domains
 
@@ -24,7 +22,6 @@ This template is entirely serial due to some issues between the platform agent a
 + 	In default settings for compute require that you have at least 11 cores of free quota to deploy.
 
 + 	The images used to create this deployment are
-	+ 	AD - Latest Windows Server 2012 R2 Image
 	+ 	SQL Server - Latest SQL Server 2014 SP1 on Windows Server 2012 R2 Image
 	+ 	Witness - Latest Windows Server 2012 R2 Image
 
@@ -71,8 +68,6 @@ You will be prompted for the following parameters
 |Name|Description|
 |:---|:---------------------|
 |virtualNetworkName|Name of the Virtual Network|
-|adPDCVMName|The name of the Primary Domain Controller|
-|adBDCVMName|The name of the Backup\Second Domain Controller|
 |sqlVMName|The prefix for the SQL VM Names|
 |sqlwVMName|The name of the File Share Witness|
 |spwebVMName|The Prefix of the SharePoint Web Server VMs|
@@ -85,4 +80,3 @@ You will be prompted for the following parameters
 |sqlImageSKU|The Image SKU for the SQL Image|
 |windowsDiskSize|The size of the VHD allocated for AD and Witness VMs Data Disk|
 |sqlDiskSize|The size of the VHD allocated for SQL VMs Data and Log Disks|
-|domainName|The name of the new AD Domain created|
