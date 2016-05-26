@@ -1,4 +1,4 @@
-# Create a High Availabilty SharePoint Farm with 9 VMs using the Powershell DSC Extension
+# Create a High Availabilty SharePoint Farm with 4 SharePoint VMs to connect to existing AD and SQL Server using the Powershell DSC Extension
 
 This template will connect to an existing SQL Server 2014 Always On Availability Group as well as to join an existing Active Directory Domain.
 
