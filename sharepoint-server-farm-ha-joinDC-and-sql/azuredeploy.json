@@ -319,7 +319,7 @@
         "spDiskSize": 128
       },
       "prefix": "[tolower(trim(subString(concat(parameters('dnsPrefix'),'           '),0,10)))]",
-      "VnetID": "parameters('existingVirtualNetworkId')",
+      "VnetID": "[parameters('existingVirtualNetworkId')]",
       "staticSubnetRef": "[concat(variables('VnetID'),'/subnets/',variables('subnetNames').staticSubnetName)]",
       "sqlSubnetRef": "[concat(variables('VnetID'),'/subnets/',variables('subnetNames').sqlSubnetName)]",
       "spWebSubnetRef": "[concat(variables('VnetID'),'/subnets/',variables('subnetNames').spWebSubnetName)]",
