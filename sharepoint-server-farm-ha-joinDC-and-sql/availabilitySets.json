@@ -2,12 +2,7 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "adAvailabilitySetName": {
-      "type": "string"
-    },
-    "sqlAvailabilitySetName": {
-      "type": "string"
-    },
+   
     "spWebAvailabilitySetName": {
       "type": "string"
     },
@@ -18,23 +13,7 @@
       "type": "string"
     }
   },
-  "resources": [
-    {
-			"type": "Microsoft.Compute/availabilitySets",
-			"name": "[parameters('adAvailabilitySetName')]",
-			"apiVersion": "2015-06-15",
-			"location": "[parameters('location')]"
-		},
-		{
-			"type": "Microsoft.Compute/availabilitySets",
-			"name": "[parameters('sqlAvailabilitySetName')]",
-			"apiVersion": "2015-06-15",
-			"location": "[parameters('location')]",
-			"properties": {
-				"platformFaultDomainCount": "3",
-				"platformUpdateDomainCount": "3"
-			}
-		},
+  "resources": [   
 		{
 			"type": "Microsoft.Compute/availabilitySets",
 			"name": "[parameters('spWebAvailabilitySetName')]",
@@ -48,15 +27,7 @@
 			"location": "[parameters('location')]"
 		}
   ],
-  "outputs": {
-    "adAvailabilitySetName": {
-      "type": "string",
-      "value": "[resourceId('Microsoft.Compute/availabilitySets',parameters('adAvailabilitySetName'))]"
-    },
-    "sqlAvailabilitySetName": {
-      "type": "string",
-      "value": "[resourceId('Microsoft.Compute/availabilitySets',parameters('sqlAvailabilitySetName'))]"
-    },
+  "outputs": {    
     "spWebAvailabilitySetName": {
       "type": "string",
       "value": "[resourceId('Microsoft.Compute/availabilitySets',parameters('spWebAvailabilitySetName'))]"
