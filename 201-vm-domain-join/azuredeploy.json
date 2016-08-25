@@ -6,19 +6,22 @@
       "type": "string",
       "metadata": {
         "description": "Existing VNET that contains the domain controller"
-      }
+      },
+      "defaultValue": "ADVNET"
     },
     "existingSubnetName": {
       "type": "string",
       "metadata": {
         "description": "Existing subnet that contains the domain controller"
-      }
+      },
+      "defaultValue": "spWebSubnet"
     },
     "dnsLabelPrefix": {
       "type": "string",
       "metadata": {
         "description": "Unique public DNS prefix for the deployment. The fqdn will look something like '<dnsname>.westus.cloudapp.azure.com'. Up to 62 chars, digits or dashes, lowercase, should start with a letter: must conform to '^[a-z][a-z0-9-]{1,61}[a-z0-9]$'."
-      }
+      },
+      "defaultValue": "spweb01"
     },
     "vmSize": {
       "type": "string",
@@ -31,7 +34,8 @@
       "type": "string",
       "metadata": {
         "description": "The FQDN of the AD domain"
-      }
+      },
+      "defaultValue": "sbox.az"
     },
     "StorageAccountName": {
       "type": "string",
@@ -44,7 +48,8 @@
       "type": "string",
       "metadata": {
         "description": "Username of the account on the domain"
-      }
+      },
+      "defaultValue": "berryst"
     },
     "domainPassword": {
       "type": "string",
