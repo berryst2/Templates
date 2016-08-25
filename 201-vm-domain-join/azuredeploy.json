@@ -131,7 +131,7 @@
           "vmSize": "[parameters('vmSize')]"
         },
         "osProfile": {
-          "computerName": "myVM",
+          "computerName": "[variables('vmName')]",
           "adminUsername": "[parameters('vmAdminUsername')]",
           "adminPassword": "[parameters('vmAdminPassword')]"
         },
@@ -143,18 +143,18 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "osdisk",
+            "name": "[concat(variables('vmname'),'osdisk')]",
             "vhd": {
-              "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/myvmosdisk.vhd')]"
+              "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',variables('vmName'),'vmosdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
           },
           "dataDisks": [
             {
-              "name": "myvm-data-disk1",
+              "name": "[concat(variables('vmname'),'datadisk')]",
               "vhd": {
-                "Uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/myvm-data-disk1.vhd')]"
+                "Uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',variables('vmName'),'-data-disk1.vhd')]"
               },
               "caching": "None",
               "createOption": "Empty",
