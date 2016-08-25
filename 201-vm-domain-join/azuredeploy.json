@@ -86,7 +86,7 @@
     }
   },
   "variables": {
-    "StorageAccountName": "parameters('storageaccount')",
+    "StorageAccountName": "[parameters('storageaccount')]",
     "imagePublisher": "MicrosoftWindowsServer",
     "imageOffer": "WindowsServer",
     "windowsOSVersion": "2012-R2-Datacenter",
