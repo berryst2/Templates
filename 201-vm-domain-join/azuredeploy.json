@@ -2,6 +2,13 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "VMName": {
+      "type": "string",
+      "metadata": {
+        "description": "Virtual Machine Name"
+      },
+      "defaultValue": "SP16AppWeb01"
+    },
     "existingVNETName": {
       "type": "string",
       "metadata": {
@@ -14,14 +21,7 @@
       "metadata": {
         "description": "Existing subnet that contains the domain controller"
       },
-      "defaultValue": "spWebSubnet"
-    },
-    "dnsLabelPrefix": {
-      "type": "string",
-      "metadata": {
-        "description": "Unique public DNS prefix for the deployment. The fqdn will look something like '<dnsname>.westus.cloudapp.azure.com'. Up to 62 chars, digits or dashes, lowercase, should start with a letter: must conform to '^[a-z][a-z0-9-]{1,61}[a-z0-9]$'."
-      },
-      "defaultValue": "sp16web01"
+      "defaultValue": "spAppWebSubnet"
     },
     "vmSize": {
       "type": "string",
@@ -90,43 +90,25 @@
     "imagePublisher": "MicrosoftWindowsServer",
     "imageOffer": "WindowsServer",
     "windowsOSVersion": "2012-R2-Datacenter",
-    "vmName": "domainJoinedVM",
+    "vmName": "[parameters('VMName')]",
     "apiVersion": "2015-06-15",
-    "nicName": "domainJoinNIC",
-    "publicIPName": "domainJoinPip",
+    "nicName": "[concat('nic',parameters('VMName'))]",
     "vnetID": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks', parameters('existingVNETName'))]",
     "subnetId": "[concat(variables('vnetID'),'/subnets/', parameters('existingSubnetName'))]"
   },
   "resources": [
-    {
-      "apiVersion": "[variables('apiVersion')]",
-      "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[variables('publicIPName')]",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "publicIPAllocationMethod": "Dynamic",
-        "dnsSettings": {
-          "domainNameLabel": "[parameters('dnsLabelPrefix')]"
-        }
-      }
-    },
+    
     {
       "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('nicName')]",
-      "location": "[resourceGroup().location]",
-      "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPName'))]"
-      ],
+      "location": "[resourceGroup().location]",      
       "properties": {
         "ipConfigurations": [
           {
             "name": "ipconfig",
             "properties": {
               "privateIPAllocationMethod": "Dynamic",
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPName'))]"
-              },
               "subnet": {
                 "id": "[variables('subnetId')]"
               }
